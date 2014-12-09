@@ -16,8 +16,8 @@
 #  - none yet                                               #
 #############################################################
 #                                                           #
-version = "V0.01"
-build = "029"
+version = "V0.02"
+build = "001"
 #############################################################
 
 
@@ -133,6 +133,11 @@ class lookup(Thread):
 def func_writelog(how, logloc, txt): # how: a=append, w=new write
    with open(logloc, how) as mylog:
       mylog.write(txt)
+
+# func Exit
+def func_exit():
+   print "Exiting...\n\nThanks for using\nCleveridge Subdomain Scanner\n\nCleveridge : https://cleveridge.org\nSubdomain Scanner @ Github : https://github.com/Cleveridge/cleveridge-subdomain-scanner"
+
 
 
 
@@ -281,7 +286,7 @@ def run_target(target, hosts, resolve_list, thread_count, print_numeric):
             print txt
             print txtB
                
-               
+            func_exit()  
             break
 
 os.system('clear')
