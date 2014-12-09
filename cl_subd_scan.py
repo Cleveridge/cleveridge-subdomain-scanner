@@ -17,7 +17,7 @@
 #############################################################
 #                                                           #
 version = "V0.01"
-build = "016"
+build = "020"
 #############################################################
 
 
@@ -106,6 +106,7 @@ class lookup(Thread):
     def run(self):
         while True:
             sub = self.in_q.get()
+            print 'Try: %s' % (sub)
             if not sub:
                 #Perpetuate the terminator for all threads to see
                 self.in_q.put(False)
@@ -209,6 +210,8 @@ def run_target(target, hosts, resolve_list, thread_count, print_numeric):
         step = 0
 
     threads_remaining = thread_count
+    subdlist = {}
+    i = 0
     while True:
         try:
             d = out_q.get(True, 10)
@@ -221,15 +224,25 @@ def run_target(target, hosts, resolve_list, thread_count, print_numeric):
                     func_writelog('a', logloc, txt + '\n') 
                     print txt
                 else:
-                    txt = "%s - %s" % (d[0], d[1])
+                    txt = "%s -> %s" % (d[0], d[1])
                     func_writelog('a', logloc, txt + '\n')                 
                     print(txt)
+                    subdlist[i] = txt
+                    i += 1
         except queue.Empty:
             pass
         #make sure everyone is complete	        
         if threads_remaining <= 0:
             print " "
-            print "Done. " 
+            print "Done. "
+            txt = 'Subdomains found : %s' % (len(sublist))
+            func_writelog('a', logloc,'\n' + txt + '\nOrdered list:\n') 
+            print txt
+            print ' '
+            print 'Ordered List:'
+            for result in sorted(sublist, key=d.get, reverse=False) :
+               txt = result
+               func_writelog('a', logloc, txt + '\n') 
             break
 
 os.system('clear')
