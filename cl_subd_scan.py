@@ -17,7 +17,7 @@
 #############################################################
 #                                                           #
 version = "V0.01"
-build = "025"
+build = "028"
 #############################################################
 
 
@@ -213,6 +213,7 @@ def run_target(target, hosts, resolve_list, thread_count, print_numeric):
 
     threads_remaining = thread_count
     subdlist = {}
+    subiplist = {}
     i = 0
     while True:
         try:
@@ -230,6 +231,10 @@ def run_target(target, hosts, resolve_list, thread_count, print_numeric):
                     func_writelog('a', logloc, txt + '\n')                 
                     print(txt)
                     subdlist[i] = txt
+                    if d[1] in subiplist.keys() :
+                        subiplist[d[1]].append(d[0])
+                    else :
+                        subiplist[d[1]] = [d[0]]
                     i += 1
         except queue.Empty:
             pass
@@ -238,7 +243,9 @@ def run_target(target, hosts, resolve_list, thread_count, print_numeric):
             print " "
             print "Done. "
             txt = 'Subdomains found : %s' % (len(subdlist))
-            func_writelog('a', logloc,'\n' + txt + '\nOrdered list:\n') 
+            
+            # Alfab. ordered result list
+            func_writelog('a', logloc,'\n' + txt + '\nOrdered list:\n-------------\n') 
             print txt
             print ' '
             print 'Ordered List:'
@@ -246,6 +253,20 @@ def run_target(target, hosts, resolve_list, thread_count, print_numeric):
                txt = result
                func_writelog('a', logloc, str(txt) + '\n') 
                print txt
+            print ' '
+            
+            # IP-ordered result list
+            txt = "IP-ordered List:"
+            func_writelog('a', logloc,'\n' + txt + '\n----------------\n')
+            print txt
+            for ips in subiplist :
+                txt = ips
+                func_writelog('a', logloc, str(txt) + '\n')
+                print txt
+                for ipssub in subiplist[ips] :
+                	txt = "      |=> %s" % (ipssub)
+                	func_writelog('a', logloc, str(txt) + '\n')
+                	print txt
                
             end = datetime.now()
             time_stamp_end = int(time.time())
