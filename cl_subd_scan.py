@@ -17,7 +17,7 @@
 #############################################################
 #                                                           #
 version = "V0.01"
-build = "020"
+build = "021"
 #############################################################
 
 
@@ -235,14 +235,15 @@ def run_target(target, hosts, resolve_list, thread_count, print_numeric):
         if threads_remaining <= 0:
             print " "
             print "Done. "
-            txt = 'Subdomains found : %s' % (len(sublist))
+            txt = 'Subdomains found : %s' % (len(subdlist))
             func_writelog('a', logloc,'\n' + txt + '\nOrdered list:\n') 
             print txt
             print ' '
             print 'Ordered List:'
-            for result in sorted(sublist, key=d.get, reverse=False) :
+            for result in sorted(subdlist.values()) :
                txt = result
-               func_writelog('a', logloc, txt + '\n') 
+               func_writelog('a', logloc, str(txt) + '\n') 
+               print txt
             break
 
 os.system('clear')
@@ -354,7 +355,7 @@ if __name__ == "__main__":
                 print ".... Done"
                 print " "
             """ """
-            txt = "Subdomain in %s : " % (target)
+            txt = "Subdomains in %s : " % (target)
             func_writelog('a', logloc, txt + '\n')
             print txt
             run_target(target, hosts, resolve_list, options.thread_count, options.numeric)
