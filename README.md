@@ -17,8 +17,14 @@ This tool is tested in a Linux environment with Python 2.7 installed
 
 ##How does it work ?
 In Linux, download the files in to the directory of your choice. BE sure the cl_subd_scan.py file is executeble (chmod 0766) and the other files are readable.
-In Terminal go to directory your files are listed in and run the cl_subd_scan.py file followed by the domain name of the domain you want to search the subdomains of eg.   
+In Terminal go to directory your files are listed in and run the cl_subd_scan.py file followed by the domain name of the domain you want to search the subdomains of eg.  
+- Tries the full list of +114.000 subdomains   
 ```./cl_subd_scan.py google.com   ```       
+- Tries the mini list of 2000 subdomains   
+```./cl_subd_scan.py -s subs_mini.txt google.com   ```       
+- Help   
+```./cl_subd_scan.py -h   ```    
+
 
 ##Contact Info 
 **Cleveridge** - Ethical Hacking Lab   
