@@ -67,12 +67,19 @@ In Terminal go to directory your files are listed in and run the cl_subd_scan.py
 <code>./cl_subd_scan.py google.com</code><br>
 </li>
 <li>Tries the mini list of 2000 subdomains<br>
-<code>./cl_subd_scan.py -s subs_mini.txt google.com</code><br>
-</li>
+<code>./cl_subd_scan.py -s subs_mini.txt google.com</code> </li>
+<li>Tries multiple domains with the mini list<br>
+<code>./cl_subd_scan.py -s subs_mini.txt google.com yahoo.com msn.com</code> </li>
 <li>Help<br>
 <code>./cl_subd_scan.py -h</code><br>
 </li>
 </ul>
+
+<h2>
+<a id="warning" class="anchor" href="#warning" aria-hidden="true"><span class="octicon octicon-link"></span></a>Warning</h2>
+
+<p>When you are using the full list of +114.000 subdomains, the scan takes a while. For slow domains or when you are working over a VPN it can take more then 1 hour for each domain.<br>
+The 'subs_mini.txt'-list is much faster. This list contains the most common subdomains but of course the list is not as complete as the full 'subs.txt'-list. This means you can miss some, not so common, subdomains.</p>
 
 <h2>
 <a id="contact-info" class="anchor" href="#contact-info" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contact Info</h2>
