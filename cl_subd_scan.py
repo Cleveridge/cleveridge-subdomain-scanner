@@ -17,7 +17,7 @@
 #############################################################
 #                                                           #
 version = "V0.01"
-build = "021"
+build = "022"
 #############################################################
 
 
@@ -106,7 +106,9 @@ class lookup(Thread):
     def run(self):
         while True:
             sub = self.in_q.get()
-            print 'Try: %s' % (sub)
+            if sub != False :
+               print 'Try: %s' % (sub)
+            	
             if not sub:
                 #Perpetuate the terminator for all threads to see
                 self.in_q.put(False)
