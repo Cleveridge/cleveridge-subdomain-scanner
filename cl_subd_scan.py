@@ -17,7 +17,7 @@
 #############################################################
 #                                                           #
 version = "V0.01"
-build = "022"
+build = "025"
 #############################################################
 
 
@@ -246,6 +246,20 @@ def run_target(target, hosts, resolve_list, thread_count, print_numeric):
                txt = result
                func_writelog('a', logloc, str(txt) + '\n') 
                print txt
+               
+            end = datetime.now()
+            time_stamp_end = int(time.time())
+            duration = int(time_stamp_end) - int(time_stamp_start)
+            time_end = str(end.year) + "-" + str(end.month) + "-" + str(end.day) + "    " + str(end.hour) + ":" + str(end.minute) + ":" + str(end.second)
+            txt = "Scan Ended : %s" % (time_end)
+            txtB = "Duration : %ss" % (duration)
+            func_writelog('a', logloc, '\n' + txt + '\n')
+            func_writelog('a', logloc, txtB + '\n')
+            print " "
+            print txt
+            print txtB
+               
+               
             break
 
 os.system('clear')
@@ -348,6 +362,8 @@ if __name__ == "__main__":
             """ Every run : create log file """
             #-- Creating log file in directory 'log' --#
             now = datetime.now()
+            time_stamp_start = int(time.time())
+            time_start = str(now.year) + "-" + str(now.month) + "-" + str(now.day) + "    " + str(now.hour) + ":" + str(now.minute) + ":" + str(now.second)
             logfile = target.replace('.', '_') + '_' + str(now.year) + str(now.month) + str(now.day) + str(now.hour) + str(now.minute) + str(now.second) + ".log"
             print "Creating log : log/%s" % (logfile),
             logloc = logdir + "/" + logfile
@@ -357,6 +373,10 @@ if __name__ == "__main__":
                 print ".... Done"
                 print " "
             """ """
+            txt = "Scan Started : %s" % (time_start)
+            func_writelog('a', logloc, txt + '\n\n')
+            print txt
+            print " "
             txt = "Subdomains in %s : " % (target)
             func_writelog('a', logloc, txt + '\n')
             print txt
