@@ -17,7 +17,7 @@
 #############################################################
 #                                                           #
 version = "V0.01"
-build = "028"
+build = "029"
 #############################################################
 
 
@@ -31,6 +31,7 @@ import random
 import dns.resolver
 from datetime import datetime
 from threading import Thread
+from urllib import urlopen
 #support for python 2.7 and 3
 try:
     import queue
@@ -398,6 +399,17 @@ if __name__ == "__main__":
             func_writelog('a', logloc, txt + '\n\n')
             print txt
             print " "
+            
+            #-- Visible IP --#
+            try :
+                visible_ip = urlopen('https://cleveridge.org/_exchange/open_files/return_ip.php?s=subd_scan').read()
+            except Exception :
+                visible_ip = urlopen('https://enabledns.com/ip').read()
+            txt = "Visible IP : " + visible_ip
+            func_writelog("a", logloc, txt + "\n\n")
+            print txt
+            print ' '
+            
             txt = "Subdomains in %s : " % (target)
             func_writelog('a', logloc, txt + '\n')
             print txt
