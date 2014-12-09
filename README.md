@@ -42,5 +42,5 @@ https://cleveridge.org
 ##Developer
 - **Erwin De Laat** [ redN00ws ]     
 https://twitter.com/erwindelaat    
-- Credits to TheRook for the initial files of Subbrute V1.0
+- Credits to TheRook for the initial files of Subbrute V1.0    
 https://github.com/TheRook/subbrute
