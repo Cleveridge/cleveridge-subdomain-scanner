@@ -17,7 +17,7 @@
 #############################################################
 #                                                           #
 version = "V0.01"
-build = "012"
+build = "016"
 #############################################################
 
 
@@ -113,11 +113,15 @@ class lookup(Thread):
                 self.out_q.put(False)
                 break
             else:
-                test = "%s.%s" % (sub, self.domain)
-                addr = self.check(test)
-                if addr and addr != self.wildcard:
-                    test = (test, str(addr))
-                    self.out_q.put(test)
+                try :
+                  test = "%s.%s" % (sub, self.domain)
+                  addr = self.check(test)
+                  if addr and addr != self.wildcard:
+                      test = (test, str(addr))
+                      self.out_q.put(test)
+                except Exception as ex :
+                    # do nothing
+                    nothing = True
 
 #++ FUNCTIONS //#
 
@@ -219,7 +223,7 @@ def run_target(target, hosts, resolve_list, thread_count, print_numeric):
                 else:
                     txt = "%s - %s" % (d[0], d[1])
                     func_writelog('a', logloc, txt + '\n')                 
-                    print txt
+                    print(txt)
         except queue.Empty:
             pass
         #make sure everyone is complete	        
