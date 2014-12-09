@@ -1,6 +1,6 @@
 ![Cleveridge logo](https://cleveridge.org/images/logo.jpg)
 
-cleveridge-subdomain-scanner
+Cleveridge Subdomain Scanner
 ======================
 ####IMPORTANT:
 >This tool is for ethical testing purpose only.   
