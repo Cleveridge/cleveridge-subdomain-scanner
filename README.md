@@ -28,7 +28,7 @@ In Terminal go to directory your files are listed in and run the cl_subd_scan.py
 ```./cl_subd_scan.py -h   ```    
 
 ##Warning
-When you are using the full list of +114.000 subdomains, the scan take a while. For slow domains or when you are working over a VPN it can take more then 1 hour per domain.
+When you are using the full list of +114.000 subdomains, the scan takes a while. For slow domains or when you are working over a VPN it can take more then 1 hour for each domain.
 The 'subs_mini.txt'-list is much faster. This list contains the most common subdomains but of course the list is not that complete as the full 'subs.txt'-list. This means you can miss some, not so common, subdomains.
 
 
