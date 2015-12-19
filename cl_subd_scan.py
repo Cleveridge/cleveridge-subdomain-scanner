@@ -17,7 +17,7 @@
 #############################################################
 #                                                           #
 version = "V0.02"
-build = "004"
+build = "005"
 #############################################################
 
 
@@ -26,6 +26,7 @@ import time
 import optparse
 import os
 import signal
+import ssl
 import sys
 import random
 import dns.resolver
