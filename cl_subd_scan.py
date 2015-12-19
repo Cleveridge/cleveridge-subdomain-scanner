@@ -17,7 +17,7 @@
 #############################################################
 #                                                           #
 version = "V0.02"
-build = "001"
+build = "004"
 #############################################################
 
 
@@ -32,6 +32,10 @@ import dns.resolver
 from datetime import datetime
 from threading import Thread
 from urllib import urlopen
+try:
+    import urllib.request as urllib2
+except ImportError:
+    import urllib2
 #support for python 2.7 and 3
 try:
     import queue
@@ -175,6 +179,8 @@ def extract_subdomains(file_name):
     return subs_sorted
 
 def check_resolvers(file_name):
+    txt = 'Checking Resolvers...'
+    print txt
     ret = []
     resolver = dns.resolver.Resolver()
     res_file = open(file_name).read()
@@ -406,10 +412,13 @@ if __name__ == "__main__":
             print " "
             
             #-- Visible IP --#
+            ctx = ssl.create_default_context()
+            ctx.check_hostname = False
+            ctx.verify_mode = ssl.CERT_NONE
             try :
-                visible_ip = urlopen('https://cleveridge.org/_exchange/open_files/return_ip.php?s=subd_scan').read()
+                visible_ip = urllib2.urlopen('https://cleveridge.org/_exchange/open_files/return_ip.php?s=subd_scanner', context=ctx).read()
             except Exception :
-                visible_ip = urlopen('https://enabledns.com/ip').read()
+                visible_ip = urllib2.urlopen('https://enabledns.com/ip', context=ctx).read()
             txt = "Visible IP : " + visible_ip
             func_writelog("a", logloc, txt + "\n\n")
             print txt
