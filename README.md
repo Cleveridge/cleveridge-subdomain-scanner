@@ -17,19 +17,12 @@ This tool is tested in a Linux environment with Python 2.7 installed
 
 ##How does it work ?
 In Linux, download the files in to the directory of your choice. BE sure the cl_subd_scan.py file is executeble (chmod 0766) and the other files are readable.
-In Terminal go to directory your files are listed in and run the cl_subd_scan.py file followed by the domain name of the domain you want to search the subdomains of eg.  
-- Tries the full list of +114.000 subdomains   
-```./cl_subd_scan.py google.com   ```       
-- Tries the mini list of 2000 subdomains   
-```./cl_subd_scan.py -s subs_mini.txt google.com   ``` 
-- Tries multiple domains with the mini list   
-```./cl_subd_scan.py -s subs_mini.txt google.com yahoo.com msn.com   ``` 
-- Help   
-```./cl_subd_scan.py -h   ```    
+In Terminal go to directory your files are listed in and run the cl_subd_scan.py file.
+The program will ask the target domain name (eg. google.com) and it will ask which subdomain list you want to use. The has 5 lists XS, S, M, L, XL. This are list from 500 up to +114.000 different subdomains.
 
 ##Warning
-When you are using the full list of +114.000 subdomains, the scan takes a while. For slow domains or when you are working over a VPN it can take more then 1 hour for each domain.    
-The 'subs_mini.txt'-list is much faster. This list contains the most common subdomains but of course the list is not as complete as the full 'subs.txt'-list. This means you can miss some, not so common, subdomains.
+When you are using the XL list of +114.000 subdomains, the scan takes a while. For slow domains or when you are working over a VPN it can take more then 1 hour for each domain.    
+The XS and S-list are much faster. This XS-list contains the most common subdomains but of course the list is not as complete as the full 'XL'-list. This means you can miss some, not so common, subdomains.
 
 
 ##Contact Info 
