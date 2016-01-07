@@ -16,11 +16,12 @@
 #  - none yet                                               #
 #############################################################
 #                                                           #
-version = "V0.02"
-build = "005"
+version = "V0.03"
+build = "003"
 #############################################################
 
 
+import collections
 import re
 import time
 import optparse
@@ -350,82 +351,60 @@ ON FIRST RUN : SETTING UP BASIC FILES AND FOLDERS
 
 
 if __name__ == "__main__":    
-    parser = optparse.OptionParser("usage: %prog [options] target")
-    parser.add_option("-c", "--thread_count", dest = "thread_count",
-              default = 10, type = "int",
-              help = "(optional) Number of lookup theads to run,  more isn't always better. default=10")
-    parser.add_option("-s", "--subs", dest = "subs", default = "subs.txt",
-              type = "string", help = "(optional) list of subdomains,  default='subs.txt'")
-    parser.add_option("-r", "--resolvers", dest = "resolvers", default = "resolvers.txt",
-              type = "string", help = "(optional) A list of DNS resolvers, if this list is empty it will OS's internal resolver default='resolvers.txt'")
-    parser.add_option("-f", "--filter_subs", dest = "filter", default = "",
-              type = "string", help = "(optional) A file containing unorganized domain names which will be filtered into a list of subdomains sorted by frequency.  This was used to build subs.txt.")
-    parser.add_option("-t", "--target_file", dest = "targets", default = "",
-              type = "string", help = "(optional) A file containing a newline delimited list of domains to brute force.")
-    parser.add_option("-n", "--numeric", dest = "numeric", action = "store_true", default = True,
-              help = "(optional) Additionally prints numeric IP addresses for sub domains (default=off).")
-
-    (options, args) = parser.parse_args()
-
-    if len(args) < 1 and options.filter == "" and options.targets == "":
-        parser.error("You must provide a target! Use -h for help.")
-
-    if options.filter != "":
-        #cleanup this file and print it out
-        for d in extract_subdomains(options.filter):
-            print(d)
-        sys.exit()
-
-    if options.targets != "":
-        
-        targets = open(options.targets).read().split("\n")
-        
-    else:
-        targets = args #multiple arguments on the cli:  ./subbrute.py google.com gmail.com yahoo.com
-
-    hosts = open(options.subs).read().split("\n")
-
-    resolve_list = check_resolvers(options.resolvers)
+    
+    
+    # Target
+    print("\n")
+    target = raw_input("Target domain name (eg. google.com) : ")
+    
+    # Subs
+    subfiles = "", "subs/subs_xs.txt", "subs/subs_s.txt", "subs/subs_m.txt", "subs/subs_l.txt", "subs/subs_xl.txt"
+    print("Select a subdomain list :\n1. Xtra Small\n2. Small\n3. Medium\n4. Large\n5. Xtra Large")
+    choosensub  = raw_input("List : ")
+    
+    hosts = open(subfiles[int(choosensub)]).read().split("\n")
+    
+    # Action
+    resolve_list = check_resolvers("cnf/resolvers.txt")
     threads = []
-    signal.signal(signal.SIGINT, killme)
+    #signal.signal(signal.SIGINT, killme)
 
-    for target in targets:
-        target = target.strip()
-        if target:
-        	   
-            """ Every run : create log file """
-            #-- Creating log file in directory 'log' --#
-            now = datetime.now()
-            time_stamp_start = int(time.time())
-            time_start = str(now.year) + "-" + str(now.month) + "-" + str(now.day) + "    " + str(now.hour) + ":" + str(now.minute) + ":" + str(now.second)
-            logfile = target.replace('.', '_') + '_' + str(now.year) + str(now.month) + str(now.day) + str(now.hour) + str(now.minute) + str(now.second) + ".log"
-            print "Creating log : log/%s" % (logfile),
-            logloc = logdir + "/" + logfile
-            with open(logloc, "w") as mylog:
-                os.chmod(logloc, 0660)
-                mylog.write("Log created by Cleveridge Subdomain Scanner - " + version + " build " + build + "\n\n")
-                print ".... Done"
-                print " "
-            """ """
-            txt = "Scan Started : %s" % (time_start)
-            func_writelog('a', logloc, txt + '\n\n')
-            print txt
-            print " "
-            
-            #-- Visible IP --#
-            ctx = ssl.create_default_context()
-            ctx.check_hostname = False
-            ctx.verify_mode = ssl.CERT_NONE
-            try :
-                visible_ip = urllib2.urlopen('https://cleveridge.org/_exchange/open_files/return_ip.php?s=subd_scanner', context=ctx).read()
-            except Exception :
-                visible_ip = urllib2.urlopen('https://enabledns.com/ip', context=ctx).read()
-            txt = "Visible IP : " + visible_ip
-            func_writelog("a", logloc, txt + "\n\n")
-            print txt
-            print ' '
-            
-            txt = "Subdomains in %s : " % (target)
-            func_writelog('a', logloc, txt + '\n')
-            print txt
-            run_target(target, hosts, resolve_list, options.thread_count, options.numeric)
+    target = target.strip()
+    if target:
+		   
+		""" Every run : create log file """
+		#-- Creating log file in directory 'log' --#
+		now = datetime.now()
+		time_stamp_start = int(time.time())
+		time_start = str(now.year) + "-" + str(now.month) + "-" + str(now.day) + "    " + str(now.hour) + ":" + str(now.minute) + ":" + str(now.second)
+		logfile = target.replace('.', '_') + '_' + str(now.year) + str(now.month) + str(now.day) + str(now.hour) + str(now.minute) + str(now.second) + ".log"
+		print "Creating log : log/%s" % (logfile),
+		logloc = logdir + "/" + logfile
+		with open(logloc, "w") as mylog:
+			os.chmod(logloc, 0660)
+			mylog.write("Log created by Cleveridge Subdomain Scanner - " + version + " build " + build + "\n\n")
+			print ".... Done"
+			print " "
+		""" """
+		txt = "Scan Started : %s" % (time_start)
+		func_writelog('a', logloc, txt + '\n\n')
+		print txt
+		print " "
+		
+		#-- Visible IP --#
+		ctx = ssl.create_default_context()
+		ctx.check_hostname = False
+		ctx.verify_mode = ssl.CERT_NONE
+		try :
+			visible_ip = urllib2.urlopen('https://cleveridge.org/_exchange/open_files/return_ip.php?s=subd_scanner', context=ctx).read()
+		except Exception :
+			visible_ip = urllib2.urlopen('https://enabledns.com/ip', context=ctx).read()
+		txt = "Visible IP : " + visible_ip
+		func_writelog("a", logloc, txt + "\n\n")
+		print txt
+		print ' '
+		
+		txt = "Subdomains in %s : " % (target)
+		func_writelog('a', logloc, txt + '\n')
+		print txt
+		run_target(target, hosts, resolve_list, 10, True)
